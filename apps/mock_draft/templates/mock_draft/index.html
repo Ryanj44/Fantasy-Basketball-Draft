@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Create a Team</h1>
+    <form action="/new_team" method="POST">
+        {% csrf_token %}
+        <p>Name: <input type="text" name="name"></p>
+        <input type="submit" value="Enter Draft">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Pick Number</th>
+                <th>First Pick</th>
+                <th>Last Pick</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in all_teams %}
+            <tr>
+                <td><a href="/team/{{team.id}}">{{team.name}}</a></td>
+                <td>{{team.pick}}</td>
+                <td>{{team.players.first.first_name}} {{team.players.first.last_name}}</td>
+                <td>{{team.players.last.first_name}} {{team.players.last.last_name}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

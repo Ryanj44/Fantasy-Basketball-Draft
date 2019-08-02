@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Draft Room</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mock_draft/css/draft.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Single-User Mock Draft Engine</h1>
+    <h2>Round: {{request.session.round}} Pick: {{request.session.pick}}</h2>
+    <div id="draft">
+        <h3>Available Players</h3>
+        <a href="/draft">All</a>
+        <a href="/draft/pg">PG</a>
+        <a href="/draft/sg">SG</a>
+        <a href="/draft/sf">SF</a>
+        <a href="/draft/pf">PF</a>
+        <a href="/draft/c">C</a>
+        <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Ranking</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>PPG</th>
+                    <th>RPG</th>
+                    <th>APG</th>
+                    <th>SPG</th>
+                    <th>BPG</th>
+                    <th>TO</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in all_players %}
+                <tr>
+                    <td>{{player.ranking}}</td>
+                    <td>{{player.first_name}} {{player.last_name}}</td>
+                    <td>{{player.position}}</td>
+                    <td>{{player.team}}</td>
+                    <td>{{player.points}}</td>
+                    <td>{{player.rebounds}}</td>
+                    <td>{{player.assists}}</td>
+                    <td>{{player.steals}}</td>
+                    <td>{{player.blocks}}</td>
+                    <td>{{player.turnovers}}</td>
+                    <td><a href="/draft/{{player.id}}">Draft</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="team">
+        <h3>{{user_team.name}}</h3>
+        <ol>
+            {% for player in user_players %}
+            <li>{{player.first_name}} {{player.last_name}}  {{player.position}}</li>
+            {% endfor %}
+        </ol>
+    </div>
+    <div id="drafted">
+        <h3>Drafted Players</h3>
+        <ul>
+            {% for player in other_players %}
+            <li>{{player.first_name}} {{player.last_name}}  {{player.position}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
